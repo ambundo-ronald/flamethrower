@@ -6,10 +6,10 @@
   "idx": 0,
   "modified": "2026-05-29 00:00:00.000000",
   "modified_by": "Administrator",
-  "module": "Sales Assistant",
-  "name": "sales-assistant",
+  "module": "Flamethrower",
+  "name": "flamethrower",
   "owner": "Administrator",
-  "page_name": "sales-assistant",
+  "page_name": "flamethrower",
   "roles": [
     {
       "role": "System Manager"
@@ -25,5 +25,5 @@
   "standard": "Yes",
   "style": null,
   "system_page": 0,
-  "title": "Sales Assistant"
+  "title": "Flamethrower"
 }

@@ -1,7 +1,7 @@
-frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
+frappe.pages["flamethrower"].on_page_load = function (wrapper) {
   const page = frappe.ui.make_app_page({
     parent: wrapper,
-    title: __("Sales Assistant"),
+    title: __("Flamethrower"),
     single_column: true,
   });
 
@@ -57,7 +57,7 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
     const visibleTransactions = state.showAllTransactions ? transactionRows : transactionRows.slice(0, 6);
 
     $body.html(`
-      <div class="sales-assistant-page">
+      <div class="flamethrower-page">
         <div class="sa-toolbar">
           <label>${__("Data Source")}</label>
           <select class="form-control" data-field="source">
@@ -65,7 +65,7 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
             <option value="external_site" ${state.source === "external_site" ? "selected" : ""}>${__("External Site")}</option>
             <option value="both" ${state.source === "both" ? "selected" : ""}>${__("Both")}</option>
           </select>
-          <span class="text-muted">${__("External source requires Sales Assistant Settings.")}</span>
+          <span class="text-muted">${__("External source requires Flamethrower Settings.")}</span>
         </div>
         <div class="sa-grid">
           <section class="sa-panel sa-panel-main">
@@ -616,7 +616,7 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
 
   async function searchCustomers() {
     const search = $body.find('[data-field="customer-search"]').val();
-    const result = await call("sales_assistant.api.search_customers", { search, limit: 10, source: state.source });
+    const result = await call("flamethrower.api.search_customers", { search, limit: 10, source: state.source });
     state.customerResults = result?.data || [];
     render();
   }
@@ -624,11 +624,11 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
   async function loadCustomer(customer) {
     state.selectedCustomer = state.customerResults.find((row) => row.customer === customer) || { customer };
     const source = state.selectedCustomer?.source?.key || state.source;
-    state.customerSummary = await call("sales_assistant.api.get_customer_summary", { customer, source });
+    state.customerSummary = await call("flamethrower.api.get_customer_summary", { customer, source });
     state.customerMatch =
       source === "current_site"
         ? { matched: true, customer: state.customerSummary.customer, customer_name: state.customerSummary.customer_name }
-        : await call("sales_assistant.api.match_customer", {
+        : await call("flamethrower.api.match_customer", {
             customer: state.customerSummary.customer,
             customer_name: state.customerSummary.customer_name,
           });
@@ -640,7 +640,7 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
 
   async function searchItems() {
     const search = $body.find('[data-field="item-search"]').val();
-    const result = await call("sales_assistant.api.search_items", { search, limit: 12, source: state.source });
+    const result = await call("flamethrower.api.search_items", { search, limit: 12, source: state.source });
     state.itemResults = result?.data || [];
     render();
   }
@@ -659,14 +659,14 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
     const itemMatch =
       itemSource === "current_site"
         ? { matched: true, item_code: item.item_code, item_name: item.item_name }
-        : await call("sales_assistant.api.match_item", {
+        : await call("flamethrower.api.match_item", {
             item_code: item.item_code,
             item_name: item.item_name,
           });
 
     let rate = item.last_rate || item.avg_rate || 0;
     if (state.customerSummary?.customer) {
-      const pricing = await call("sales_assistant.api.pricing_lookup", {
+      const pricing = await call("flamethrower.api.pricing_lookup", {
         customer: state.customerSummary.customer,
         item: itemCode,
         source: state.customerSummary.source?.key || state.source,
@@ -700,7 +700,7 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
     } else {
       const itemMatch =
         item.source?.key === "external_site"
-          ? await call("sales_assistant.api.match_item", {
+          ? await call("flamethrower.api.match_item", {
               item_code: item.item_code,
               item_name: item.item_name,
             })
@@ -731,7 +731,7 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
       return;
     }
 
-    const result = await call("sales_assistant.api.get_recommendations", {
+    const result = await call("flamethrower.api.get_recommendations", {
       customer: state.customerSummary?.customer,
       items: state.basket.map(itemKey).join(","),
       limit: 10,
@@ -778,7 +778,7 @@ frappe.pages["sales-assistant"].on_page_load = function (wrapper) {
           : undefined,
     };
 
-    const method = type === "quotation" ? "sales_assistant.api.create_quotation" : "sales_assistant.api.create_sales_order";
+    const method = type === "quotation" ? "flamethrower.api.create_quotation" : "flamethrower.api.create_sales_order";
     const result = await call(method, { payload: JSON.stringify(payload), source: "current_site" });
     frappe.show_alert({ message: __("{0} created", [result.name]), indicator: "green" });
     frappe.set_route("Form", result.doctype, result.name);

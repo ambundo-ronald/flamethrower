@@ -23,7 +23,7 @@ def _round_money(value):
 
 
 def _settings():
-    return frappe.get_single("Sales Assistant Settings")
+    return frappe.get_single("Flamethrower Settings")
 
 
 def _client_config():

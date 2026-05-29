@@ -1,7 +1,7 @@
 [project]
-name = "sales_assistant"
+name = "flamethrower"
 version = "0.1.0"
-description = "Sales Assistant app for ERPNext customer summaries, pricing lookup, recommendations, and quotation workflows."
+description = "Flamethrower app for ERPNext customer summaries, pricing lookup, recommendations, and quotation workflows."
 authors = [
   { name = "Ambundo Ronald" }
 ]
@@ -10,7 +10,7 @@ dependencies = []
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["sales_assistant*"]
+include = ["flamethrower*"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

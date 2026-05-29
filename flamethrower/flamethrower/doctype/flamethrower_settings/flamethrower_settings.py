@@ -2,7 +2,7 @@ import frappe
 from frappe.model.document import Document
 
 
-class SalesAssistantSettings(Document):
+class FlamethrowerSettings(Document):
     def validate(self):
         if self.external_erp_url:
             self.external_erp_url = self.external_erp_url.rstrip("/")

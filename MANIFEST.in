@@ -1,6 +1,6 @@
-recursive-include sales_assistant *.json
-recursive-include sales_assistant *.js
-recursive-include sales_assistant *.css
-recursive-include sales_assistant *.py
-recursive-include sales_assistant *.txt
-recursive-include sales_assistant *.svg
+recursive-include flamethrower *.json
+recursive-include flamethrower *.js
+recursive-include flamethrower *.css
+recursive-include flamethrower *.py
+recursive-include flamethrower *.txt
+recursive-include flamethrower *.svg

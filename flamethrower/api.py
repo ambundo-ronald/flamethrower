@@ -1,7 +1,7 @@
 import frappe
 
-from sales_assistant.services import external_erp
-from sales_assistant.services import local_erp
+from flamethrower.services import external_erp
+from flamethrower.services import local_erp
 
 
 SOURCE_DEFINITIONS = [
@@ -22,18 +22,18 @@ SOURCE_DEFINITIONS = [
 ]
 
 
-def has_sales_assistant_permission():
-    return frappe.has_permission("Sales Assistant Settings", "read")
+def has_flamethrower_permission():
+    return frappe.has_permission("Flamethrower Settings", "read")
 
 
 def _settings():
-    return frappe.get_single("Sales Assistant Settings")
+    return frappe.get_single("Flamethrower Settings")
 
 
 def _not_implemented(feature):
     frappe.throw(
         f"{feature} is planned but not implemented yet.",
-        title="Sales Assistant",
+        title="Flamethrower",
     )
 
 
@@ -44,12 +44,12 @@ def _selected_sources(source=None):
 
     if selected in {"current", "current site", "local", "local frappe"}:
         if not settings.enable_current_site_source:
-            frappe.throw("Current site source is disabled in Sales Assistant Settings.")
+            frappe.throw("Current site source is disabled in Flamethrower Settings.")
         return ["current_site"]
 
     if selected in {"external", "external site", "external frappe"}:
         if not settings.external_erp_url or not settings.external_api_key:
-            frappe.throw("External ERP source is not configured in Sales Assistant Settings.")
+            frappe.throw("External ERP source is not configured in Flamethrower Settings.")
         return ["external_site"]
 
     if selected == "both":
@@ -59,10 +59,10 @@ def _selected_sources(source=None):
         if settings.external_erp_url and settings.external_api_key and settings.get_password("external_api_secret"):
             sources.append("external_site")
         if not sources:
-            frappe.throw("No Sales Assistant sources are enabled.")
+            frappe.throw("No Flamethrower sources are enabled.")
         return sources
 
-    frappe.throw(f"Unknown Sales Assistant source: {source}")
+    frappe.throw(f"Unknown Flamethrower source: {source}")
 
 
 def _selected_source(source=None):
@@ -123,8 +123,8 @@ def get_settings_summary():
 def ping():
     return {
         "status": "ok",
-        "app": "sales_assistant",
-        "message": "Sales Assistant Frappe app is installed.",
+        "app": "flamethrower",
+        "message": "Flamethrower Frappe app is installed.",
     }
 
 
