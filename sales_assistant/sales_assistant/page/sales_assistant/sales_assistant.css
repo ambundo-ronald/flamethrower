@@ -1,0 +1,269 @@
+.sales-assistant-page {
+  padding: 16px 0;
+}
+
+.sa-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
+  gap: 16px;
+}
+
+.sa-toolbar {
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+}
+
+.sa-toolbar label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.sa-toolbar .form-control {
+  max-width: 220px;
+}
+
+.sa-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 0;
+}
+
+.sa-panel-main {
+  grid-row: span 3;
+}
+
+.sa-panel-wide {
+  grid-column: 2;
+}
+
+.sa-panel-head,
+.sa-search-row,
+.sa-result-row,
+.sa-recommendation,
+.sa-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sa-panel-head {
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.sa-panel-head h3,
+.sa-table-block h4 {
+  margin: 0;
+}
+
+.sa-search-row {
+  margin-bottom: 12px;
+}
+
+.sa-search-row .form-control {
+  min-width: 0;
+}
+
+.sa-chip {
+  background: var(--control-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 12px;
+  padding: 3px 8px;
+}
+
+.sa-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sa-list-row,
+.sa-result-row,
+.sa-recommendation {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--fg-color);
+  padding: 10px;
+  width: 100%;
+}
+
+.sa-list-row {
+  display: block;
+  text-align: left;
+}
+
+.sa-list-row span,
+.sa-result-row span,
+.sa-recommendation span,
+.sa-recommendation small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.sa-result-row,
+.sa-recommendation {
+  justify-content: space-between;
+}
+
+.sa-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.sa-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.sa-metric {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.sa-metric span {
+  color: var(--text-muted);
+  display: block;
+  font-size: 12px;
+}
+
+.sa-metric strong {
+  display: block;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.sa-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.sa-table-block {
+  margin-top: 14px;
+}
+
+.sa-match {
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.6fr);
+  margin-top: 14px;
+  padding: 12px;
+}
+
+.sa-match span,
+.sa-line-match small {
+  color: var(--text-muted);
+  display: block;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.sa-match-ok {
+  background: var(--control-bg);
+}
+
+.sa-match-needed {
+  background: var(--alert-bg);
+}
+
+.sa-line-match {
+  margin-top: 8px;
+  max-width: 260px;
+}
+
+.sa-table {
+  margin-bottom: 0;
+}
+
+.sa-table th,
+.sa-table td {
+  vertical-align: middle;
+}
+
+.sa-empty {
+  color: var(--text-muted);
+  background: var(--control-bg);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.sa-see-more {
+  margin-top: 8px;
+}
+
+.sa-actions {
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.sa-basket-settings {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 12px;
+}
+
+.sa-basket-settings label {
+  color: var(--text-muted);
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.sa-warehouse-control {
+  min-width: 180px;
+}
+
+.sa-recommendation-grid {
+  display: grid;
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .sa-grid,
+  .sa-two-col,
+  .sa-match {
+    grid-template-columns: 1fr;
+  }
+
+  .sa-panel-main,
+  .sa-panel-wide {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .sa-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sa-toolbar .form-control {
+    max-width: none;
+  }
+
+  .sa-basket-settings {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,6 @@
+recursive-include sales_assistant *.json
+recursive-include sales_assistant *.js
+recursive-include sales_assistant *.css
+recursive-include sales_assistant *.py
+recursive-include sales_assistant *.txt
+recursive-include sales_assistant *.svg

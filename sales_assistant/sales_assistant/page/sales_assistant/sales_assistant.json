@@ -1,0 +1,29 @@
+{
+  "content": null,
+  "creation": "2026-05-29 00:00:00.000000",
+  "docstatus": 0,
+  "doctype": "Page",
+  "idx": 0,
+  "modified": "2026-05-29 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Sales Assistant",
+  "name": "sales-assistant",
+  "owner": "Administrator",
+  "page_name": "sales-assistant",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Sales Manager"
+    },
+    {
+      "role": "Sales User"
+    }
+  ],
+  "script": null,
+  "standard": "Yes",
+  "style": null,
+  "system_page": 0,
+  "title": "Sales Assistant"
+}

@@ -1,0 +1,15 @@
+node_modules/
+.env
+npm-debug.log*
+
+# Python / Frappe local output
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.bench/
+sites/
+env/
+.venv/
+
+# Frontend build output kept only when explicitly needed
+dist/

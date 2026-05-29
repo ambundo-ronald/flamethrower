@@ -1,0 +1,83 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-05-29 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "source_settings_section",
+    "enable_current_site_source",
+    "default_source",
+    "external_site_section",
+    "external_erp_url",
+    "external_api_key",
+    "external_api_secret"
+  ],
+  "fields": [
+    {
+      "fieldname": "source_settings_section",
+      "fieldtype": "Section Break",
+      "label": "Source Settings"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_current_site_source",
+      "fieldtype": "Check",
+      "label": "Enable Current Site Source"
+    },
+    {
+      "default": "Current Site",
+      "fieldname": "default_source",
+      "fieldtype": "Select",
+      "label": "Default Source",
+      "options": "Current Site\nExternal Site\nBoth"
+    },
+    {
+      "fieldname": "external_site_section",
+      "fieldtype": "Section Break",
+      "label": "External ERPNext / Frappe Site"
+    },
+    {
+      "fieldname": "external_erp_url",
+      "fieldtype": "Data",
+      "label": "External ERP URL"
+    },
+    {
+      "fieldname": "external_api_key",
+      "fieldtype": "Data",
+      "label": "External API Key"
+    },
+    {
+      "fieldname": "external_api_secret",
+      "fieldtype": "Password",
+      "label": "External API Secret"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "issingle": 1,
+  "links": [],
+  "modified": "2026-05-29 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Sales Assistant",
+  "name": "Sales Assistant Settings",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "read": 1,
+      "role": "Sales Manager"
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}

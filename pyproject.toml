@@ -1,0 +1,17 @@
+[project]
+name = "sales_assistant"
+version = "0.1.0"
+description = "Sales Assistant app for ERPNext customer summaries, pricing lookup, recommendations, and quotation workflows."
+authors = [
+  { name = "Ambundo Ronald" }
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sales_assistant*"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
