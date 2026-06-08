@@ -59,7 +59,7 @@ def _client_config():
     }
 
 
-def _request(path, params=None):
+def _request(path, params=None, allow_forbidden=False):
     config = _client_config()
     response = requests.get(
         f"{config['base_url']}{path}",
@@ -67,6 +67,9 @@ def _request(path, params=None):
         params=params or {},
         timeout=20,
     )
+
+    if allow_forbidden and response.status_code == 403:
+        return {}
 
     if response.status_code >= 400:
         frappe.throw(
@@ -77,7 +80,15 @@ def _request(path, params=None):
     return response.json()
 
 
-def _resource(doctype, fields=None, filters=None, or_filters=None, limit=20, order_by="modified desc"):
+def _resource(
+    doctype,
+    fields=None,
+    filters=None,
+    or_filters=None,
+    limit=20,
+    order_by="modified desc",
+    allow_forbidden=False,
+):
     params = {
         "fields": json.dumps(fields or ["name"]),
         "limit_page_length": _limit(limit),
@@ -88,12 +99,19 @@ def _resource(doctype, fields=None, filters=None, or_filters=None, limit=20, ord
     if or_filters:
         params["or_filters"] = json.dumps(or_filters)
 
-    data = _request(f"/api/resource/{quote(doctype)}", params=params)
+    data = _request(
+        f"/api/resource/{quote(doctype)}",
+        params=params,
+        allow_forbidden=allow_forbidden,
+    )
     return data.get("data") or []
 
 
-def _doc(doctype, name):
-    data = _request(f"/api/resource/{quote(doctype)}/{quote(name)}")
+def _doc(doctype, name, allow_forbidden=False):
+    data = _request(
+        f"/api/resource/{quote(doctype)}/{quote(name)}",
+        allow_forbidden=allow_forbidden,
+    )
     return data.get("data") or {}
 
 
@@ -112,7 +130,7 @@ def _source_row():
     return SOURCE.copy()
 
 
-def _linked_docnames(customer, doctype):
+def _linked_docnames(customer, doctype, primary=None):
     rows = _resource(
         "Dynamic Link",
         fields=["parent"],
@@ -122,12 +140,19 @@ def _linked_docnames(customer, doctype):
             ["parenttype", "=", doctype],
         ],
         limit=50,
+        allow_forbidden=True,
     )
-    return sorted({row.get("parent") for row in rows if row.get("parent")})
+    names = {row.get("parent") for row in rows if row.get("parent")}
+    if primary:
+        names.add(primary)
+    return sorted(names)
 
 
 def _contact_summary(contact_name):
-    contact = _doc("Contact", contact_name)
+    contact = _doc("Contact", contact_name, allow_forbidden=True)
+    if not contact:
+        return None
+
     phones = []
     emails = []
 
@@ -163,7 +188,10 @@ def _contact_summary(contact_name):
 
 
 def _address_summary(address_name):
-    address = _doc("Address", address_name)
+    address = _doc("Address", address_name, allow_forbidden=True)
+    if not address:
+        return None
+
     lines = [
         address.get("address_line1"),
         address.get("address_line2"),
@@ -189,12 +217,20 @@ def _address_summary(address_name):
     }
 
 
-def _linked_contacts(customer):
-    return [_contact_summary(name) for name in _linked_docnames(customer, "Contact")]
+def _linked_contacts(customer, primary_contact=None):
+    contacts = [
+        _contact_summary(name)
+        for name in _linked_docnames(customer, "Contact", primary=primary_contact)
+    ]
+    return [contact for contact in contacts if contact]
 
 
-def _linked_addresses(customer):
-    return [_address_summary(name) for name in _linked_docnames(customer, "Address")]
+def _linked_addresses(customer, primary_address=None):
+    addresses = [
+        _address_summary(name)
+        for name in _linked_docnames(customer, "Address", primary=primary_address)
+    ]
+    return [address for address in addresses if address]
 
 
 def _recent_documents(doctype, filters, date_field, limit=5):
@@ -204,6 +240,7 @@ def _recent_documents(doctype, filters, date_field, limit=5):
         filters=filters,
         limit=limit,
         order_by=f"{date_field} desc, modified desc",
+        allow_forbidden=True,
     )
 
     data = []
@@ -384,8 +421,8 @@ def get_customer_summary(customer):
         "total_amount": _round_money(sum(flt(item["total_amount"]) for item in items)),
         "total_purchase_count": len(rows),
         "items": items,
-        "contacts": _linked_contacts(customer),
-        "addresses": _linked_addresses(customer),
+        "contacts": _linked_contacts(customer, customer_doc.get("customer_primary_contact")),
+        "addresses": _linked_addresses(customer, customer_doc.get("customer_primary_address")),
         "accounts": [],
         "recent_transactions": _recent_customer_transactions(customer),
         "cross_sell_suggestions": [],
