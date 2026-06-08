@@ -1,5 +1,5 @@
 import json
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 import frappe
 import requests
@@ -26,9 +26,24 @@ def _settings():
     return frappe.get_single("Flamethrower Settings")
 
 
+def normalize_base_url(value):
+    base_url = (value or "").strip().rstrip("/")
+    if base_url and "://" not in base_url:
+        base_url = f"https://{base_url}"
+
+    parsed = urlparse(base_url)
+    if base_url and (parsed.scheme not in {"http", "https"} or not parsed.netloc):
+        frappe.throw(
+            "External ERP URL must be a valid HTTP or HTTPS URL.",
+            title="External ERP",
+        )
+
+    return base_url
+
+
 def _client_config():
     settings = _settings()
-    base_url = (settings.external_erp_url or "").rstrip("/")
+    base_url = normalize_base_url(settings.external_erp_url)
     api_key = settings.external_api_key
     api_secret = settings.get_password("external_api_secret")
 
